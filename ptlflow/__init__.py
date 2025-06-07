@@ -28,6 +28,7 @@ import torch
 from torch import hub
 
 from ptlflow.models.base_model.base_model import BaseModel
+#from ptlflow.ptlflow.models.base_model.base_model import BaseModel # For our code to import
 
 from ptlflow.utils.registry import (
     _models_dict,

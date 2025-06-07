@@ -6,9 +6,9 @@ trainer:
   max_epochs: 45
   accumulate_grad_batches: 1
   gradient_clip_val: 1.0
-  devices: 0,1
+  devices: 1
 model:
-  class_path: ptlflow.models.dpflow
+  class_path: ptlflow.models.dpflow.customdpflow
   init_args:
     pyramid_levels: 3
     iters_per_level: 4
