@@ -650,12 +650,58 @@ class FlowDataModule(pl.LightningDataModule):
         return dataset
 
     def _get_kubric_dataset(self, is_train: bool, *args: str) -> Dataset:
-        if is_train:
-            raise NotImplementedError()
-        else:
-            transform = ft.ToTensor()
+        print("Calling _get_kubric_dataset")
+        device = "cuda" if self.train_transform_cuda else "cpu"
+        md = make_divisible
 
-        get_backward = False
+        if is_train:
+            print("_get_kubric_dataset::is_train")
+            #raise NotImplementedError()
+            if self.train_crop_size is None:
+                cy, cx = (
+                    md(368, self._get_model_output_stride()),
+                    md(496, self._get_model_output_stride()),
+                )
+                self.train_crop_size = (cy, cx)
+                logger.warning(
+                    "--train_crop_size is not set. It will be set as ({}, {}).", cy, cx
+                )
+            else:
+                cy, cx = (
+                    md(self.train_crop_size[0], self._get_model_output_stride()),
+                    md(self.train_crop_size[1], self._get_model_output_stride()),
+                )
+
+            # These transforms are based on RAFT: https://github.com/princeton-vl/RAFT
+            transform = ft.Compose(
+                [
+                    ft.ToTensor(device=device, fp16=self.train_transform_fp16),
+                    ft.RandomScaleAndCrop(
+                        (cy, cx),
+                        (-0.1, 1.0),
+                        (-0.2, 0.2),
+                    ),
+                    ft.ColorJitter(0.4, 0.4, 0.4, 0.5 / 3.14, 0.2),
+                    ft.GaussianNoise(0.02),
+                    ft.RandomPatchEraser(
+                        0.5, (int(1), int(3)), (int(50), int(100)), "mean"
+                    ),
+                    ft.RandomFlip(min(0.5, 0.5), min(0.1, 0.5)),
+                    (
+                        ft.GenerateFBCheckFlowOcclusion(threshold=1)
+                        #if fbocc_transform
+                        #else None
+                    ),
+                ]
+            )
+            get_backward = True
+            
+        else:
+            # For Valid
+            transform = ft.ToTensor()
+            get_backward = False
+
+        
         sequence_length = 2
         sequence_position = "first"
         max_seq = None
