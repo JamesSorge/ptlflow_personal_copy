@@ -9,4 +9,4 @@ kitti_2015: /path/to/KITTI/2015
 hd1k: /path/to/HD1K
 tartanair: /path/to/tartanair
 spring: /path/to/spring
-kubric: /home/yix050/private/ECE285_Visual_25Spring/final_project/DPFlow/datasets/kubric_nk/1k
+kubric: /home/jsorge/private/final_project/DPFlow/datasets/kubric_nk/1k

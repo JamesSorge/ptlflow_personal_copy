@@ -1,16 +1,13 @@
 # lightning.pytorch==2.4.0
-seed_everything: true
-lr: 2.5e-4
-wdecay: 1.0e-4
-trainer:
-  max_epochs: 45
-  accumulate_grad_batches: 1
-  gradient_clip_val: 1.0
-  devices: 1
+output_path: outputs/test/kubric
+show: false
+max_forward_side: null
+scale_factor: null
+max_show_side: 1000
+save_viz: true
 model:
   class_path: ptlflow.models.dpflow.customdpflow
   init_args:
-    pyramid_levels: 3
     iters_per_level: 4
     detach_flow: true
     use_norm_affine: false
@@ -59,12 +56,4 @@ model:
     use_var: true
     var_min: 0.0
     var_max: 10.0
-    warm_start: false
-data:
-  train_dataset: kubric
-  val_dataset: kubric
-  train_batch_size: 5
-  train_num_workers: 5
-  train_crop_size: [176, 240]
-  train_transform_cuda: false
-  train_transform_fp16: false
+    warm_start: true

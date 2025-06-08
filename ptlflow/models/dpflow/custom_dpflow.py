@@ -41,8 +41,8 @@ except:
     alt_cuda_corr = None
 
 import sys
-# sys.path.append("/home/jsorge/private/final_project/DPFlow")
-sys.path.append("/home/yix050/private/ECE285_Visual_25Spring/final_project/DPFlow")
+sys.path.append("/home/jsorge/private/final_project/DPFlow")
+# sys.path.append("/home/yix050/private/ECE285_Visual_25Spring/final_project/DPFlow")
 print(f"sys.path = ")
 for idx in range(len(sys.path)):
     print(f"\t{sys.path[idx]}") 

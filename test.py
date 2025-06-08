@@ -262,6 +262,10 @@ def _write_to_file(
         out_root_dir = out_root_dir / dataloader_tokens[0]
         out_viz_root_dir = out_viz_root_dir / dataloader_tokens[0]
         flow_ext = "flo5"
+    elif dataloader_tokens[0] == "kubric":
+        out_root_dir = out_root_dir / dataloader_tokens[0]
+        out_viz_root_dir = out_viz_root_dir / dataloader_tokens[0]
+        flow_ext = "png"
 
     extra_dirs = ""
     if metadata is not None:
@@ -280,7 +284,12 @@ def _write_to_file(
             side, idx = img_path.stem.split("_")[-2:]
             extra_dirs = f"{img_path.parts[-3]}/flow_{direc}_{side}"
             image_name = f"flow_{direc}_{side}_{idx}"
+        elif "kubric" in dataloader_name:
+            seq_name = img_path.parts[-2]
+            print(f"Sequence Name -2: {seq_name}")
+            extra_dirs = seq_name
     else:
+        print(f"Metadata is None.")
         image_name = f"{batch_idx:08d}"
 
     out_dir = out_root_dir / extra_dirs

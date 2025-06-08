@@ -291,7 +291,7 @@ class PTLFlowTrainer(pl.Trainer):
             min_steps=min_steps,
             max_time=max_time,
             limit_train_batches=limit_train_batches,
-            limit_val_batches=limit_val_batches,
+            limit_val_batches=0,
             limit_test_batches=limit_test_batches,
             limit_predict_batches=limit_predict_batches,
             overfit_batches=overfit_batches,
